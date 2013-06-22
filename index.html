@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<!-- ===Meta information=== -->
+		<meta charset="utf-8">
+		<meta name="description" content="Dasper: Personal Dashboard">
+		<meta name="author" content="Raunaq Gupta">
+
+		<title>Dashboard</title>
+
+		<!-- ===Stylesheets=== -->
+		<link href='http://fonts.googleapis.com/css?family=Molle:400italic' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/layout.css">
+		<link rel="stylesheet" href="css/skeleton.css">
+		<link rel="stylesheet" href="css/main.css">
+	</head>
+	<body>
+		<div class="container">
+			<div class="sixteen columns content">
+				<header>
+					<h1>DASPER</h1>
+				</header>
+			</div>
+			
+			<!-- LASTFM module -->
+			<div class="sixteen columns content">
+				<div class="row inner-row">
+					<div class="two columns alpha">
+						<img src="images/Last.fm_Logo_Black.png"></img>
+					</div>
+					<div class="two columns beta">
+						<a href="http://www.last.fm/user/raunaqgupta">raunaqgupta</a>
+					</div>
+					<div class="two columns omega" id="lastfm_playcount">
+					</div>
+				</div>
+				<div class="row inner-row">
+					<div class="five columns alpha">
+						<ul id="weekly_top_tracks_list">
+							<li>Top Tracks - Week</li>
+						</ul>
+					</div>
+					<div class="eleven columns omega">
+						Weekly Playcount
+						<canvas id="canvas_lastfm" width=640 height=335></canvas>
+					</div>
+				</div>
+			</div>
+
+			<!-- 4SQUARE module -->
+			<div class="sixteen columns content">
+				<div class="row inner-row">
+					<div class="two columns alpha">
+						<img src="images/foursquare-logo.png"></img>
+					</div>
+					<div class="two columns omega">
+						<a href="https://foursquare.com/user/38489249">Profile</a>
+					</div>
+				</div>
+				<div class="row inner-row">
+					<div class="four columns alpha">
+						<canvas id="canvas_lastfm" width=640 height=335></canvas>
+					</div>
+					<div class="twelve columns omega">World</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ===Scripts=== -->
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/idbwrapper/1.2.0/idbstore.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+		<script src="js/lastfm.api.cache.js"></script>
+		<script src="js/lastfm.api.md5.js"></script>
+		<script src="js/lastfm.api.js"></script>
+		<script src="js/Chart.js"></script>
+		<script src="js/data.js"></script>
+		<script src="js/starter.js"></script>
+	</body>
+</html>

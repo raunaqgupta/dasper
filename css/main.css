@@ -1,0 +1,94 @@
+body {
+	background: #eee;
+}
+
+div.container {
+	padding-top: 20px;
+	padding-bottom: 10px;
+	background: #eee;
+}
+
+header {
+	background-color: #eee;
+	height: 50px;
+}
+
+header > h1 {
+	text-align: center;
+	font-family: 'Molle', cursive;
+	text-shadow: 0px 1px 1px #fff;
+	color: #ccc;
+}
+
+hr.large {
+	border: none;
+	height: 8px;
+	background: #ebebeb;
+	margin-top: 20px; 
+}
+
+div.columns {
+	background-color: #ddd;
+}
+
+div.content {
+	margin-bottom: 10px;
+}
+
+div.alpha, div.beta, div.omega {
+	background-color: #ccc;
+}
+
+div.row {
+	background-color: #eee;
+}
+
+.inner-row {
+	margin-bottom: 0px;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+.top-row {
+	background-color: yellow;
+	height: 50px;
+}
+
+.content-row {
+	background-color: orange;
+	height: 350px;
+}
+
+canvas {
+	background-color: #456;
+}
+
+li {
+	overflow: hidden;
+	margin: 0px;
+	border-bottom: 1px solid #eee;
+}
+
+.track {
+	position: relative;
+}
+
+.track-cover {
+	float: left;
+}
+
+.track-detail {
+	float: left;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.track-playcount {
+	color: white;
+	float: right;
+	margin-top: 20px;
+	margin-right: 10px;
+}
