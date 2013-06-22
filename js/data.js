@@ -177,18 +177,21 @@ DASHBOARD.FourSquare = function(){
 	var getCheckinData = function(url, arguments){
 		$.getJSON(url, arguments)
 		.done(function(data){
-			console.log(data.response.checkins.items.length);
 			var checkins = data.response.checkins.items;
-			if(checkin_count == 0){
+			if(checkin_count === 0){
 				checkin_count = data.response.checkins.count;
 			}
 			_.each(checkins, function(checkin){
 				var creation_date = checkin.createdAt;
-				checkin_data.push([creation_date]);
+				checkin_data.push([creation_date*1000]);
 			});
 
 			//call getCheckinData until all checkin data has been received
 			if(checkin_data.length < checkin_count){
+				var version = get_version();
+				var startDate = new Date();
+				startDate.setMonth(startDate.getMonth() - 11);
+
 				var new_arguments = {
 					v: version,
 					oauth_token: access_token,
@@ -197,7 +200,7 @@ DASHBOARD.FourSquare = function(){
 					afterTimestamp: parseInt(startDate.getTime()/1000),
 					sort: "oldestfirst"
 				};
-				getCheckinData(url, arguments);
+				getCheckinData(url, new_arguments);
 			}else{
 				drawCheckinStats();
 			}
@@ -211,26 +214,44 @@ DASHBOARD.FourSquare = function(){
 	var drawCheckinStats = function(){
 
 		console.log(checkin_data.length);
+		var current_month = (new Date()).getMonth();
+		var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		var data_array = [], label_array = [];
 
 		_.each(checkin_data, function(data){
+			//console.log(data[0])
 			var date = new Date(data[0]);
 			monthly_checkin[date.getMonth()] += 1;
 		});
 
-		var current_month = (new Date()).getMonth();
+		_.each(monthly_checkin, function(element, index, list){
+			if(index === current_month){
+				data_array[11] = element;
+				label_array[11] = months[index];
+			}
+			else if(index < current_month){
+				data_array[11-(current_month-index)] = element;
+				label_array[11-(current_month-index)] = months[index];
+			}
+			else if(index > current_month){
+				data_array[index-current_month-1] = element;
+				label_array[index-current_month-1] = months[index];
+			}
+		});
 
 		var barChartData = {
-			labels : _.map(weekly_data, function(datum){ return getDateFromTimestamp(datum[0]) }),
+			labels : label_array,
 			datasets: [
 				{
 					fillColor : "rgba(220,220,220,0.5)",
 					strokeColor : "rgba(220,220,220,1)",
-					data : _.map(weekly_data, function(datum){ return datum[1]})
+					data : data_array
 				}
 			]
 		}
 
-		var myLine = new Chart(document.getElementById("canvas_lastfm").getContext("2d")).Bar(barChartData);
+		var myLine = new Chart(document.getElementById("canvas_4square").getContext("2d")).Bar(barChartData);
+		
 	}
 
 	return {
@@ -240,7 +261,7 @@ DASHBOARD.FourSquare = function(){
 			var url = "https://api.foursquare.com/v2/users/" + user_id + "/checkins";
 			var version = get_version();
 			var startDate = new Date();
-			startDate.setMonth(startDate.getMonth() - 12);
+			startDate.setMonth(startDate.getMonth() - 11);
 
 			var arguments = {
 				v: version,
@@ -250,36 +271,9 @@ DASHBOARD.FourSquare = function(){
 				sort: "oldestfirst"
 			};
 
-			$.getJSON(url, arguments)
-			.done(function(data){
-				console.log(data.response.checkins.items.length);
-				var checkins = data.response.checkins.items;
-				checkin_count = data.response.checkins.count;
-				_.each(checkins, function(checkin){
-					var creation_date = checkin.createdAt;
-					checkin_data.push([creation_date]);
-				});
-
-				//call getCheckinData until all checkin data has been received
-				if(checkin_data.length < checkin_count){
-					var new_arguments = {
-						v: version,
-						oauth_token: access_token,
-						limit: limit,
-						offset: checkin_data.length,
-						afterTimestamp: parseInt(startDate.getTime()/1000),
-						sort: "oldestfirst"
-					};
-					getCheckinData(url, arguments);
-				}else{
-					drawCheckinStats();
-				}
-			})
-			.fail(function( jqxhr, textStatus, error ) {
-  				var err = textStatus + ', ' + error;
-  				console.log( "Request Failed: " + err);
-			});
+			getCheckinData(url, arguments);
+			
 		}
 
-	}
+	} // end of return
 }; // end of foursquare object
