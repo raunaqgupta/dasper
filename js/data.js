@@ -258,7 +258,29 @@ DASHBOARD.FourSquare = function(){
 	}
 
 	drawVenuePie = function(){
-		
+
+		var labels = [], values = [];
+		_.each(venue_categories, function(num, key){
+			if(num>10){
+				labels.push(key);
+				values.push(num);
+			}
+		});
+		var radarChartData = {
+			labels : labels,
+			datasets : [
+				{
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,1)",
+					pointColor : "rgba(220,220,220,1)",
+					pointStrokeColor : "#fff",
+					data : values
+				}
+			]
+			
+		}
+
+	var myRadar = new Chart(document.getElementById("canvas_4sq_venue").getContext("2d")).Radar(radarChartData,{scaleShowLabels : false, pointLabelFontSize : 12});
 	}
 
 	return {
@@ -337,7 +359,6 @@ DASHBOARD.FourSquare = function(){
 					});
 				});
 
-				console.log(venue_categories);
 				drawVenuePie();
 			})
 			.fail(function( jqxhr, textStatus, error ){
