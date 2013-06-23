@@ -7,7 +7,7 @@ window.onload = function(){
 	DASHBOARD.var_lastfm.getUserInfo();
 
 	/* foursquare data */
-	DASHBOARD.var_4sq = DASHBOARD.FourSquare();
+	DASHBOARD.var_4sq = DASHBOARD.FourSquare("3TYJCHDREIM45PGMWYCOAWSXBAR4W5BMCA155SETRTJ55SEC", "38489249");
 	//var_4sq.getCheckins();
 	//var_4sq.getMayorships();
 	//var_4sq.getVenues();
