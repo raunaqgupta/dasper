@@ -158,7 +158,7 @@ DASHBOARD.FourSquare = function(){
 	var access_token = "3TYJCHDREIM45PGMWYCOAWSXBAR4W5BMCA155SETRTJ55SEC";
 	var user_id = "38489249";
 
-	var get_version = function(){
+	var version = function(){
 		var today = new Date();
 		var dd = today.getDate();
 		var mm = today.getMonth()+1; //January is 0!
@@ -166,13 +166,17 @@ DASHBOARD.FourSquare = function(){
 		var yyyy = today.getFullYear();
 		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = yyyy + mm + dd;
 		return today;
-	}
+	}();
 
 	// variables for checkin data
 	var limit = 250, offset = 250;
 	var checkin_count = 0;
 	var checkin_data = [];
 	var monthly_checkin = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+	// variables for venue data
+	var venue_categories = {};
+	var venue_count = 0;
 
 	var getCheckinData = function(url, arguments){
 		$.getJSON(url, arguments)
@@ -188,7 +192,6 @@ DASHBOARD.FourSquare = function(){
 
 			//call getCheckinData until all checkin data has been received
 			if(checkin_data.length < checkin_count){
-				var version = get_version();
 				var startDate = new Date();
 				startDate.setMonth(startDate.getMonth() - 11);
 
@@ -254,12 +257,15 @@ DASHBOARD.FourSquare = function(){
 		
 	}
 
+	drawVenuePie = function(){
+		
+	}
+
 	return {
 
 		getCheckins: function(){
 			console.log("4sq: checkin-data");
 			var url = "https://api.foursquare.com/v2/users/" + user_id + "/checkins";
-			var version = get_version();
 			var startDate = new Date();
 			startDate.setMonth(startDate.getMonth() - 11);
 
@@ -273,7 +279,73 @@ DASHBOARD.FourSquare = function(){
 
 			getCheckinData(url, arguments);
 			
+		},
+
+		getMayorships: function(){
+			var url = "https://api.foursquare.com/v2/users/" + user_id + "/mayorships";
+
+			var arguments = {
+				v: version,
+				oauth_token: access_token
+			};
+
+			$.getJSON(url, arguments)
+			.done(function(data){
+				var count = data.response.mayorships.count;
+				var mayorships = data.response.mayorships.items;
+				var ul = $("#mayorships");
+
+				_.each(mayorships, function(data){
+					var img_src = data.venue.categories[0].icon.prefix + "bg_32" + data.venue.categories[0].icon.suffix;
+					ul.append(
+						$('<li>').append(
+							$('<img>').attr({"src":img_src, "class":"mayorship_img"}),
+							$('<div>').attr({"class":"mayorship_name"}).append(data.venue.name)
+							)
+						);
+				});
+			})
+			.fail(function( jqxhr, textStatus, error ){
+				var err = textStatus + ', ' + error;
+				console.log( "Request Failed: " + err);
+			});
+		},
+
+		getVenues: function(){
+			var url = "https://api.foursquare.com/v2/users/" + user_id + "/venuehistory";
+			var arguments = {
+				v: version,
+				oauth_token: access_token
+			};
+
+			$.getJSON(url, arguments)
+			.done(function(data){
+				var venues = data.response.venues.items;
+				venue_count = data.response.venues.count;
+				_.each(venues, function(item){
+					var categories = item.venue.categories;
+					_.each(categories, function(category){
+						if(category.primary === true){
+							//check and add key,value pair
+							if(!venue_categories[category.name]){
+								venue_categories[category.name] = item.beenHere;
+							}
+							else{
+								venue_categories[category.name] += item.beenHere;
+							}
+						}
+					});
+				});
+
+				console.log(venue_categories);
+				drawVenuePie();
+			})
+			.fail(function( jqxhr, textStatus, error ){
+				var err = textStatus + ', ' + error;
+				console.log( "Request Failed: " + err);
+			});
 		}
 
 	} // end of return
 }; // end of foursquare object
+	

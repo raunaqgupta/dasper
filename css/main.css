@@ -92,3 +92,17 @@ li {
 	margin-top: 20px;
 	margin-right: 10px;
 }
+
+.mayorship_img {
+	float:left;
+}
+
+.mayorship_name {
+	position: relative;
+	left: 5px;
+	top: 5px;
+}
+
+footer {
+	background-color: orange;
+}
