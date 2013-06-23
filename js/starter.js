@@ -1,14 +1,22 @@
-	window.onload = function(){
+window.onload = function(){
 
 	/* lastfm data */
-	var var_lastfm = DASHBOARD.LastFM('raunaqgupta', 12);
-	var_lastfm.getWeeklyStats();
-	var_lastfm.getWeekTopTracks(5);
-	var_lastfm.getUserInfo();
+	DASHBOARD.var_lastfm = DASHBOARD.LastFM('raunaqgupta', 12);
+	DASHBOARD.var_lastfm.getWeeklyStats();
+	DASHBOARD.var_lastfm.getWeekTopTracks(5);
+	DASHBOARD.var_lastfm.getUserInfo();
 
 	/* foursquare data */
-	var var_4sq = DASHBOARD.FourSquare();
-	var_4sq.getCheckins();
-	var_4sq.getMayorships();
-	var_4sq.getVenues();
+	DASHBOARD.var_4sq = DASHBOARD.FourSquare();
+	//var_4sq.getCheckins();
+	//var_4sq.getMayorships();
+	//var_4sq.getVenues();
 };
+
+var canvas_resize = function(){
+	var inner_width = window.innerWidth;
+	var inner_height = window.innerHeight;
+	DASHBOARD.var_lastfm.resize_canvas();
+};
+
+window.addEventListener("resize", canvas_resize, false);

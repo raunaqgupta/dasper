@@ -40,12 +40,31 @@ DASHBOARD.LastFM = function(username, num_weeks){
 				{
 					fillColor : "rgba(220,220,220,0.5)",
 					strokeColor : "rgba(220,220,220,1)",
+					pointColor : "rgba(220,220,220,1)",
+					pointStrokeColor : "#fff",
 					data : _.map(weekly_data, function(datum){ return datum[1]})
 				}
 			]
 		}
 
-		var myLine = new Chart(document.getElementById("canvas_lastfm").getContext("2d")).Bar(barChartData);
+		var chart_options = {
+
+		};
+
+		var canvas_parent = $("#lastfm_playcount_chart");
+		var canvas_width = canvas_parent.innerWidth();
+		var canvas = 0;
+		if($("#canvas_lastfm").length){
+			console.log("canvas exists:" + $("#canvas_lastfm"));
+			canvas = $("#canvas_lastfm");
+			canvas.attr("width", canvas_width).attr("height", parseInt(canvas_width/1.6180));
+		}else{
+			console.log("creating new canvas");
+			canvas = $("<canvas/>",{"id": "canvas_lastfm"})
+				.attr({"width": canvas_width, "height": parseInt(canvas_width/1.6180)});
+			canvas_parent.append(canvas);
+		}
+		var myLine = new Chart(canvas.get(0).getContext("2d")).Line(barChartData);
 	}
 
 	var renderWeeklyTopTracks = function(){
@@ -69,6 +88,10 @@ DASHBOARD.LastFM = function(username, num_weeks){
 	}
 
 	return {
+
+		resize_canvas: function(){
+			drawLastFMStats();
+		},
 
 		getWeeklyStats: function(){
 
@@ -260,6 +283,7 @@ DASHBOARD.FourSquare = function(){
 	drawVenuePie = function(){
 
 		var labels = [], values = [];
+		_.sortBy
 		_.each(venue_categories, function(num, key){
 			if(num>10){
 				labels.push(key);
