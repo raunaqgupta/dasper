@@ -6,6 +6,7 @@
 		<meta charset="utf-8">
 		<meta name="description" content="Dasper: Personal Dashboard">
 		<meta name="author" content="Raunaq Gupta">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 		<title>Dashboard</title>
 
@@ -22,10 +23,10 @@
 				<header>
 					<h1>DASPER</h1>
 				</header>
-			</div>
+			
 			
 			<!-- LASTFM module -->
-			<div class="sixteen columns content">
+			<!-- <div class="sixteen columns content"> -->
 				<div class="row inner-row">
 					<div class="two columns alpha">
 						<img src="images/Last.fm_Logo_Black.png"></img>
@@ -42,15 +43,15 @@
 							<li>Top Tracks - Week</li>
 						</ul>
 					</div>
-					<div class="eleven columns omega">
+					<div class="eleven columns omega" id="lastfm_playcount_chart">
 						Weekly Playcount
-						<canvas id="canvas_lastfm" width=640 height=335></canvas>
 					</div>
 				</div>
-			</div>
+			<!-- </div> -->
 
-			<!-- 4SQUARE module -->
-			<div class="sixteen columns content">
+			<hr />
+
+			<!-- 4SQUARE module
 				<div class="row inner-row">
 					<div class="two columns alpha">
 						<img src="images/foursquare-logo.png"></img>
@@ -77,12 +78,8 @@
 					</div>
 				</div>
 			</div>
-			
+			-->
 		</div>
-
-		<footer>
-			Why, That is sweet.
-		</footer>
 
 		<!-- ===Scripts=== -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
