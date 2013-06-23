@@ -28,7 +28,6 @@ hr.large {
 }
 
 div.columns {
-	background-color: #ddd;
 }
 
 div.content {
@@ -40,11 +39,9 @@ div.alpha, div.beta, div.omega {
 }
 
 div.row {
-	background-color: #eee;
 }
 
 .inner-row {
-	margin-bottom: 0px;
 }
 
 img {
@@ -52,18 +49,7 @@ img {
 	max-width: 100%;
 }
 
-.top-row {
-	background-color: yellow;
-	height: 50px;
-}
-
-.content-row {
-	background-color: orange;
-	height: 350px;
-}
-
 canvas {
-	background-color: #456;
 }
 
 li {
