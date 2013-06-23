@@ -176,10 +176,10 @@ DASHBOARD.LastFM = function(username, num_weeks){
 }; // end of LastFM object
 
 
-DASHBOARD.FourSquare = function(){
+DASHBOARD.FourSquare = function(access_token, user_id){
 
-	var access_token = "3TYJCHDREIM45PGMWYCOAWSXBAR4W5BMCA155SETRTJ55SEC";
-	var user_id = "38489249";
+	var access_token = access_token;
+	var user_id = user_id;
 
 	var version = function(){
 		var today = new Date();
