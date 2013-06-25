@@ -8,15 +8,15 @@ window.onload = function(){
 
 	/* foursquare data */
 	DASHBOARD.var_4sq = DASHBOARD.FourSquare("3TYJCHDREIM45PGMWYCOAWSXBAR4W5BMCA155SETRTJ55SEC", "38489249");
-	DASHBOARD.var_4sq.getCheckins();
+	DASHBOARD.var_4sq.drawCheckinChart();
 	DASHBOARD.var_4sq.getMayorships();
-	DASHBOARD.var_4sq.getVenues();
+	DASHBOARD.var_4sq.drawVenueChart();
 };
 
 var canvas_resize = function(){
-	var inner_width = window.innerWidth;
-	var inner_height = window.innerHeight;
 	DASHBOARD.var_lastfm.resize_canvas();
+	DASHBOARD.var_4sq.redrawCheckinChart();
+	DASHBOARD.var_4sq.redrawVenueChart();
 };
 
 window.addEventListener("resize", canvas_resize, false);

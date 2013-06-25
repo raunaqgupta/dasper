@@ -196,11 +196,12 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 	var limit = 250, offset = 250;
 	var checkin_count = 0;
 	var checkin_data = [];
-	var monthly_checkin = [0,0,0,0,0,0,0,0,0,0,0,0];
+	var checkin_chart_data = {};
 
 	// variables for venue data
 	var venue_categories = {};
 	var venue_count = 0;
+	var venue_chart_data = {};
 
 	var getCheckinData = function(url, arguments){
 		$.getJSON(url, arguments)
@@ -234,6 +235,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 				var current_month = (new Date()).getMonth();
 				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 				var data_array = [], label_array = [];
+				var monthly_checkin = [0,0,0,0,0,0,0,0,0,0,0,0];
 
 				_.each(checkin_data, function(data){
 					//console.log(data[0])
@@ -256,19 +258,15 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 					}
 				});
 
-				var barChartData = {
-					labels : label_array,
-					datasets: [
-						{
-							fillColor : "rgba(220,220,220,0.5)",
-							strokeColor : "rgba(220,220,220,1)",
-							data : data_array
-						}
-					]
-				}
+				checkin_chart_data["labels"] = label_array;
+				checkin_chart_data["datasets"] = [{
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,1)",
+					data : data_array
+				}];
 
 				// draw the chart
-				drawCheckinStats(barChartData);
+				drawCheckinChart();
 			}
 		})
 		.fail(function( jqxhr, textStatus, error ) {
@@ -277,7 +275,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 		});
 	}
 
-	var drawCheckinStats = function(barChartData){
+	var drawCheckinChart = function(){
 
 		var canvas_parent = $("#4sq_checkin_chart");
 		var canvas_width = canvas_parent.innerWidth();
@@ -291,33 +289,11 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 			canvas_parent.append(canvas);
 		}
 
-		var myLine = new Chart(canvas.get(0).getContext("2d")).Bar(barChartData);
+		var myLine = new Chart(canvas.get(0).getContext("2d")).Bar(checkin_chart_data);
 		
 	}
 
-	drawVenuePie = function(){
-
-		var labels = [], values = [];
-		_.sortBy
-		_.each(venue_categories, function(num, key){
-			if(num>10){
-				labels.push(key);
-				values.push(num);
-			}
-		});
-		var radarChartData = {
-			labels : labels,
-			datasets : [
-				{
-					fillColor : "rgba(220,220,220,0.5)",
-					strokeColor : "rgba(220,220,220,1)",
-					pointColor : "rgba(220,220,220,1)",
-					pointStrokeColor : "#fff",
-					data : values
-				}
-			]
-			
-		}
+	drawVenueChart = function(radarChartData){
 
 		var canvas_parent = $("#4sq_venue_chart");
 		var canvas_width = canvas_parent.innerWidth();
@@ -338,7 +314,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 
 	return {
 
-		getCheckins: function(){
+		drawCheckinChart: function(){
 			console.log("4sq: checkin-data");
 			var url = "https://api.foursquare.com/v2/users/" + user_id + "/checkins";
 			var startDate = new Date();
@@ -355,6 +331,10 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 			getCheckinData(url, arguments);
 			
 		},
+
+		redrawCheckinChart: function(){
+			drawCheckinChart();
+		}
 
 		getMayorships: function(){
 			var url = "https://api.foursquare.com/v2/users/" + user_id + "/mayorships";
@@ -386,7 +366,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 			});
 		},
 
-		getVenues: function(){
+		drawVenueChart: function(){
 			var url = "https://api.foursquare.com/v2/users/" + user_id + "/venuehistory";
 			var arguments = {
 				v: version,
@@ -412,12 +392,35 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 					});
 				});
 
-				drawVenuePie();
+				var labels = [], values = [];
+				_.sortBy
+				_.each(venue_categories, function(num, key){
+					if(num>10){
+						labels.push(key);
+						values.push(num);
+					}
+				});
+
+				venue_chart_data["labels"] = labels;
+				venue_chart_data["datasets"] = [{
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,1)",
+					pointColor : "rgba(220,220,220,1)",
+					pointStrokeColor : "#fff",
+					data : values
+				}];
+
+				//draw the chart
+				drawVenueChart();
 			})
 			.fail(function( jqxhr, textStatus, error ){
 				var err = textStatus + ', ' + error;
 				console.log( "Request Failed: " + err);
 			});
+		},
+
+		redrawVenueChart: function(){
+			drawVenueChart();
 		},
 
 		getBadges: function(){
