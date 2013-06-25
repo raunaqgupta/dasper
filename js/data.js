@@ -48,7 +48,7 @@ DASHBOARD.LastFM = function(username, num_weeks){
 		}
 
 		var chart_options = {
-
+			scaleShowGridLines: false
 		};
 
 		var canvas_parent = $("#lastfm_playcount_chart");
@@ -64,13 +64,14 @@ DASHBOARD.LastFM = function(username, num_weeks){
 				.attr({"width": canvas_width, "height": parseInt(canvas_width/1.6180)});
 			canvas_parent.append(canvas);
 		}
-		var myLine = new Chart(canvas.get(0).getContext("2d")).Line(barChartData);
+		var myLine = new Chart(canvas.get(0).getContext("2d")).Line(barChartData, chart_options);
 	}
 
 	var renderWeeklyTopTracks = function(){
 
 		var ul = $('#weekly_top_tracks_list');
 		_.each(top_tracks_week, function(track){
+			console.log(track);
 
 			ul.append(
 				$('<li>').append(
@@ -228,7 +229,46 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 				};
 				getCheckinData(url, new_arguments);
 			}else{
-				drawCheckinStats();
+
+				console.log(checkin_data.length);
+				var current_month = (new Date()).getMonth();
+				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+				var data_array = [], label_array = [];
+
+				_.each(checkin_data, function(data){
+					//console.log(data[0])
+					var date = new Date(data[0]);
+					monthly_checkin[date.getMonth()] += 1;
+				});
+
+				_.each(monthly_checkin, function(element, index, list){
+					if(index === current_month){
+						data_array[11] = element;
+						label_array[11] = months[index];
+					}
+					else if(index < current_month){
+						data_array[11-(current_month-index)] = element;
+						label_array[11-(current_month-index)] = months[index];
+					}
+					else if(index > current_month){
+						data_array[index-current_month-1] = element;
+						label_array[index-current_month-1] = months[index];
+					}
+				});
+
+				var barChartData = {
+					labels : label_array,
+					datasets: [
+						{
+							fillColor : "rgba(220,220,220,0.5)",
+							strokeColor : "rgba(220,220,220,1)",
+							data : data_array
+						}
+					]
+				}
+
+				// draw the chart
+				drawCheckinStats(barChartData);
 			}
 		})
 		.fail(function( jqxhr, textStatus, error ) {
@@ -237,46 +277,21 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 		});
 	}
 
-	var drawCheckinStats = function(){
+	var drawCheckinStats = function(barChartData){
 
-		console.log(checkin_data.length);
-		var current_month = (new Date()).getMonth();
-		var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		var data_array = [], label_array = [];
-
-		_.each(checkin_data, function(data){
-			//console.log(data[0])
-			var date = new Date(data[0]);
-			monthly_checkin[date.getMonth()] += 1;
-		});
-
-		_.each(monthly_checkin, function(element, index, list){
-			if(index === current_month){
-				data_array[11] = element;
-				label_array[11] = months[index];
-			}
-			else if(index < current_month){
-				data_array[11-(current_month-index)] = element;
-				label_array[11-(current_month-index)] = months[index];
-			}
-			else if(index > current_month){
-				data_array[index-current_month-1] = element;
-				label_array[index-current_month-1] = months[index];
-			}
-		});
-
-		var barChartData = {
-			labels : label_array,
-			datasets: [
-				{
-					fillColor : "rgba(220,220,220,0.5)",
-					strokeColor : "rgba(220,220,220,1)",
-					data : data_array
-				}
-			]
+		var canvas_parent = $("#4sq_checkin_chart");
+		var canvas_width = canvas_parent.innerWidth();
+		var canvas = 0;
+		if($("#canvas_4sq_checkin_chart").length){
+			canvas = $("#canvas_4sq_checkin_chart");
+			canvas.attr("width", canvas_width).attr("height", parseInt(canvas_width/1.6180));
+		}else{
+			canvas = $("<canvas/>",{"id": "canvas_4sq_checkin_chart"})
+				.attr({"width": canvas_width, "height": parseInt(canvas_width/1.6180)});
+			canvas_parent.append(canvas);
 		}
 
-		var myLine = new Chart(document.getElementById("canvas_4square").getContext("2d")).Bar(barChartData);
+		var myLine = new Chart(canvas.get(0).getContext("2d")).Bar(barChartData);
 		
 	}
 
@@ -304,7 +319,21 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 			
 		}
 
-	var myRadar = new Chart(document.getElementById("canvas_4sq_venue").getContext("2d")).Radar(radarChartData,{scaleShowLabels : false, pointLabelFontSize : 12});
+		var canvas_parent = $("#4sq_venue_chart");
+		var canvas_width = canvas_parent.innerWidth();
+		var canvas = 0;
+		if($("#canvas_4sq_venue_chart").length){
+			canvas = $("#canvas_4sq_venue_chart");
+			canvas.attr("width", canvas_width).attr("height", canvas_width);
+		}else{
+			canvas = $("<canvas/>",{"id": "canvas_4sq_venue_chart"})
+				.attr({"width": canvas_width, "height": canvas_width});
+			canvas_parent.append(canvas);
+		}
+
+		var myRadar = new Chart(canvas.get(0).getContext("2d")).Radar(radarChartData,{
+			pointLabelFontSize : 12
+		});
 	}
 
 	return {
@@ -384,6 +413,23 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 				});
 
 				drawVenuePie();
+			})
+			.fail(function( jqxhr, textStatus, error ){
+				var err = textStatus + ', ' + error;
+				console.log( "Request Failed: " + err);
+			});
+		},
+
+		getBadges: function(){
+			var url = "https://api.foursquare.com/v2/users/" + user_id +"/badges";
+			var arguments = {
+				v: version,
+				oauth_token: access_token
+			};
+
+			$.getJSON(url, arguments)
+			.done(function(data){
+				var badges = data.response.badges
 			})
 			.fail(function( jqxhr, textStatus, error ){
 				var err = textStatus + ', ' + error;

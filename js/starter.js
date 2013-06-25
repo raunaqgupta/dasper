@@ -8,9 +8,9 @@ window.onload = function(){
 
 	/* foursquare data */
 	DASHBOARD.var_4sq = DASHBOARD.FourSquare("3TYJCHDREIM45PGMWYCOAWSXBAR4W5BMCA155SETRTJ55SEC", "38489249");
-	//var_4sq.getCheckins();
-	//var_4sq.getMayorships();
-	//var_4sq.getVenues();
+	DASHBOARD.var_4sq.getCheckins();
+	DASHBOARD.var_4sq.getMayorships();
+	DASHBOARD.var_4sq.getVenues();
 };
 
 var canvas_resize = function(){
