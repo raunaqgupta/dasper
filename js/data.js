@@ -31,7 +31,7 @@ DASHBOARD.LastFM = function(username, num_weeks){
 		return ret;
 	}
 
-	var drawLastFMStats = function(){
+	var drawScrobbleCanvas = function(){
 
 		weekly_data.sort();
 		var barChartData = {
@@ -67,7 +67,7 @@ DASHBOARD.LastFM = function(username, num_weeks){
 		var myLine = new Chart(canvas.get(0).getContext("2d")).Line(barChartData, chart_options);
 	}
 
-	var renderWeeklyTopTracks = function(){
+	var displayWeeklyTopTracks = function(){
 
 		var ul = $('#weekly_top_tracks_list');
 		_.each(top_tracks_week, function(track){
@@ -90,11 +90,11 @@ DASHBOARD.LastFM = function(username, num_weeks){
 
 	return {
 
-		resize_canvas: function(){
-			drawLastFMStats();
+		redrawScrobbleChart: function(){
+			drawScrobbleCanvas();
 		},
 
-		getWeeklyStats: function(){
+		drawScrobbleChart: function(){
 
 			// get date array
 			lastfm.user.getWeeklyChartList({user: username},{success: function(data){
@@ -123,7 +123,7 @@ DASHBOARD.LastFM = function(username, num_weeks){
 						//call drawing function after all callbacks have returned
 						if(j===date_array.length){
 							console.log("all callbacks received");
-							drawLastFMStats();
+							drawScrobbleCanvas();
 						}
 
 					}, error: function(code, message){
@@ -151,7 +151,7 @@ DASHBOARD.LastFM = function(username, num_weeks){
 					top_tracks_week.push([track.name, track.playcount, track.artist.name, track.image]);
 				}
 
-				renderWeeklyTopTracks();
+				displayWeeklyTopTracks();
 
 			}, error: function(code, message){
 				console.log("ERROR:" + code + ":" + message);
@@ -275,7 +275,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 		});
 	}
 
-	var drawCheckinChart = function(){
+	var drawCheckinCanvas = function(){
 
 		var canvas_parent = $("#4sq_checkin_chart");
 		var canvas_width = canvas_parent.innerWidth();
@@ -293,7 +293,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 		
 	}
 
-	drawVenueChart = function(radarChartData){
+	var drawVenueCanvas = function(radarChartData){
 
 		var canvas_parent = $("#4sq_venue_chart");
 		var canvas_width = canvas_parent.innerWidth();
@@ -333,7 +333,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 		},
 
 		redrawCheckinChart: function(){
-			drawCheckinChart();
+			drawCheckinCanvas();
 		}
 
 		getMayorships: function(){
@@ -411,7 +411,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 				}];
 
 				//draw the chart
-				drawVenueChart();
+				drawVenueCanvas();
 			})
 			.fail(function( jqxhr, textStatus, error ){
 				var err = textStatus + ', ' + error;
@@ -420,7 +420,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 		},
 
 		redrawVenueChart: function(){
-			drawVenueChart();
+			drawVenueCanvas();
 		},
 
 		getBadges: function(){
@@ -432,7 +432,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 
 			$.getJSON(url, arguments)
 			.done(function(data){
-				var badges = data.response.badges
+				//var badges = data.response.badges;
 			})
 			.fail(function( jqxhr, textStatus, error ){
 				var err = textStatus + ', ' + error;

@@ -2,7 +2,7 @@ window.onload = function(){
 
 	/* lastfm data */
 	DASHBOARD.var_lastfm = DASHBOARD.LastFM('raunaqgupta', 12);
-	DASHBOARD.var_lastfm.getWeeklyStats();
+	DASHBOARD.var_lastfm.drawScrobbleChart();
 	DASHBOARD.var_lastfm.getWeekTopTracks(5);
 	DASHBOARD.var_lastfm.getUserInfo();
 
