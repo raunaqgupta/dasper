@@ -135,6 +135,12 @@ h1>a[href^="https://"], h1>a[href^="http://"]{
 	-webkit-box-shadow: 0 0 1px 1px #ddd;
 }
 
+.canvas-div:hover {
+	box-shadow: 0 0 1px 1px #ccc;
+	-moz-box-shadow: 0 0 1px 1px #ccc;
+	-webkit-box-shadow: 0 0 1px 1px #ccc;
+}
+
 /* LASTFM */
 
 div.info-list-item {
