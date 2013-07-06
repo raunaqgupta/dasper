@@ -19,68 +19,135 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="sixteen columns content">
-				<header>
-					<h1>DASPER</h1>
-				</header>
-			
-			
-			<!-- LASTFM module -->
-			<!-- <div class="sixteen columns content"> -->
+			<div class="three columns sidebar">
+				<nav>
+					<ul class="nav-list">
+						<li><a href=""><img src="images/logo.png" /></a></li>
+						<li><a href="#lastfm_module"><img src="images/lastfm_logo.png" /></a></li>
+						<li><a href="#4sq_module"><img src="images/4sq_logo.png" /></a></li>
+						<li><a href="#fb_module"><img src="images/fb_logo.png" /></a></li>
+						<li><a href="#instagram_module"><img src="images/instagram_logo.png" /></a></li>
+					</ul>
+				</nav>
+			</div>
+
+			<div class="twelve offset-by-three columns content">
+
+				<!-- LASTFM module -->
+				<div class="row title-row" id="lastfm_module">
+					<h1><a href="http://www.last.fm/user/raunaqgupta">Last.FM</a></h1>
+				</div>
+
 				<div class="row inner-row">
-					<div class="two columns alpha">
-						<img src="images/Last.fm_Logo_Black.png"></img>
-					</div>
-					<div class="two columns beta">
-						<a href="http://www.last.fm/user/raunaqgupta">raunaqgupta</a>
-					</div>
-					<div class="two columns omega" id="lastfm_playcount">
+					<div  class="twelve columns alpha content-div">
+						<h2>Stats</h2>
+						<ul class="information">
+							<li>Total Playcount <div class="info-list-item" id="lastfm-playcount"></div></li>
+						</ul>
 					</div>
 				</div>
+
 				<div class="row inner-row">
-					<div class="five columns alpha">
+					<div class="seven columns alpha canvas-div" id="lastfm_playcount_chart">
+						<h2>Weekly Playcount</h2>
+					</div>
+					
+					<div class="five columns omega content-div">
+						<h2>Top Tracks (Week)</h2>
 						<ul id="weekly_top_tracks_list">
-							<li>Top Tracks - Week</li>
 						</ul>
 					</div>
-					<div class="eleven columns omega" id="lastfm_playcount_chart">
-						Weekly Playcount
+				</div>
+
+				<hr/>
+
+				<!-- 4SQUARE module -->
+				<div class="row title-row" id="4sq_module">
+					<div class="three columns alpha">
+						<h1><a href="https://foursquare.com/user/38489249">Foursquare</a></h1>
 					</div>
 				</div>
-			<!-- </div> -->
 
-			<hr />
-
-			<!-- 4SQUARE module -->
 				<div class="row inner-row">
-					<div class="two columns alpha">
-						<img src="images/foursquare-logo.png"></img>
-					</div>
-					<div class="two columns omega">
-						<a href="https://foursquare.com/user/38489249">Profile</a>
-					</div>
-				</div>
-				<div class="row inner-row">
-					<div class="twelve columns alpha" id="4sq_checkin_chart">
-						Monthly Checkins
-					</div>
-					<div class="four columns omega">
-						<ul id="mayorships">
-							<li>Mayorships</li>
+					<div  class="twelve columns alpha content-div">
+						<h2>Stats</h2>
+						<ul class="information">
+							<li>Checkins <div class="info-list-item" id="foursq_checkins"></div></li>
 						</ul>
 					</div>
 				</div>
 				<div class="row inner-row">
-					<div class="eight columns alpha" id="4sq_venue_chart">
-						Top Places
+					<div class="eight columns alpha canvas-div" id="4sq_checkin_chart">
+						<h2>Monthly Checkins</h2>
+					</div>
+
+					<div class="four columns omega content-div">
+						<h2>Mayorships</h2>
+						<ul id="mayorships"></ul>
 					</div>
 				</div>
+
+				<div class="row inner-row">
+					<div class="twelve columns alpha canvas-div" id="4sq_venue_chart">
+						<h2>Top Places</h2>
+					</div>
+				</div>
+
+				<hr />
+
+				<!-- Facebook module-->
+				<div class="row title-row" id="fb_module">
+					<div class="three columns alpha">
+						<h1><a href="https://facebook.com/raunaqgupta">Facebook</a></h1>
+					</div>
+				</div>
+
+				<div class="row inner-row">
+					<div class="twelve columns alpha canvas-div" id="fb_activity_chart">
+						<h2>Facebook Activity</h2>
+						<div class="legend" style="height: 30px; float: right">
+							<div style="background-color: rgba(220,220,220,0.5); width: 20px; height: 10px; display: block; position: relative; float: left; margin: 10px"></div>
+							<div style="position: relative; margin: 5px; float: left">Post Activity</div>
+
+							<div style="background-color: rgba(220,100,220,0.5); width: 20px; height: 10px; display: block; position: relative; float: left; margin: 10px"></div>
+							<div style="position: relative; margin: 5px; float: left">Friends added</div>
+						</div>
+					</div>
+					<div class="five columns omega">
+					</div>
+				</div>
+
+				<hr />
+
+				<!-- instagram module -->
+				<div class="row title-row" id="instagram_module">
+					<div class="three columns alpha">
+						<h1><a href="https://instagram.com/raunaqgupta">Instagram</a></h1>
+					</div>
+				</div>
+
+				<div class="row inner-row">
+					<div  class="seven columns alpha content-div">
+						<h2>Stats</h2>
+						<ul class="information">
+							<li>Posts <div class="info-list-item" id="instagram_posts"></div></li>
+							<li>Followers <div class="info-list-item" id="instagram_followers"></div></li>
+							<li>Following <div class="info-list-item" id="instagram_following"></div></li>
+						</ul>
+					</div>
+
+					<div class="five columns omega canvas-div" id="instagram_latest_post">
+						<h2>Latest</h2>
+					</div>
+				</div>
+
+				<hr />
+
 			</div>
 		</div>
 
 		<!-- ===Scripts=== -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/idbwrapper/1.2.0/idbstore.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
 		<script src="js/lastfm.api.cache.js"></script>
 		<script src="js/lastfm.api.md5.js"></script>

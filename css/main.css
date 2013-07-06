@@ -2,46 +2,69 @@ body {
 	background: #eee;
 }
 
+div.border{
+	width: 100%;
+	height: 8px;
+	background-color: #aaf;
+}
+
 div.container {
-	padding-top: 20px;
-	padding-bottom: 10px;
 	background: #eee;
 }
 
+nav{
+	position: fixed;
+	width: 80px;
+}
+
+.content {
+	margin-top: 100px;
+}
+
+/*
+ul.nav-list > li {
+	width: 50px;
+}
+*/
+
+.nav-logo {
+	display: block;
+	width: 25%;
+}
+
 header {
-	background-color: #eee;
-	height: 50px;
+	text-align: left;
+	overflow: hidden;
 }
 
 header > h1 {
-	text-align: center;
-	font-family: 'Molle', cursive;
-	text-shadow: 0px 1px 1px #fff;
-	color: #ccc;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 10px;
+	float:right;
+	font-family: 'Molle', Helvetica;
+	text-shadow: 0px 2px 2px #ccc;
+	color: #fff;
+	border-bottom: 4px solid #aca;
+	background-color: #dea;
 }
 
 hr.large {
 	border: none;
-	height: 8px;
-	background: #ebebeb;
-	margin-top: 20px; 
+	height: 2px;
+	background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.3), rgba(0,0,0,0)); 
+    background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
 }
 
-div.columns {
-}
-
-div.content {
-	margin-bottom: 10px;
-}
-
-div.alpha, div.beta, div.omega {
-	background-color: #ccc;
-}
-
-div.row {
-}
-
-.inner-row {
+.logo {
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	box-shadow: 0 0 1px 1px #ccc;
+	-moz-box-shadow: 0 0 1px 1px #ccc;
+	-webkit-box-shadow: 0 0 1px 1px #ccc;
 }
 
 img {
@@ -49,13 +72,110 @@ img {
 	max-width: 100%;
 }
 
-canvas {
+.title-row{
+}
+
+div.inner-row{
+}
+
+h1 {
+	border: 1px solid right: ;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 2em;
+	color: #aaa;
+	margin: 0 auto;
+}
+
+h2{
+	text-align: center;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 1.2em;
+	color: #aaa;
+	/* border-bottom: 1px solid #ccc; */
+	margin: 0 auto;
+	background: -moz-linear-gradient(top, #eee, white);
+}
+
+h3 {
+	text-align: center;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 1em;
+	color: #aaa;
+	margin: 0 auto;
+}
+
+h1>a[href^="https://"], h1>a[href^="http://"]{
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 1.2em;
+	color: #aaa;
+    background: url("../images/externallink.png") center right no-repeat;
+    padding-right: 13px;
+    text-decoration: none;
+}
+
+.content-div {
+	box-sizing: border-box;
+	-moz-box-sizing:border-box;
+	background-color: white;
+	box-shadow: 0 0 1px 1px #ddd;
+	-moz-box-shadow: 0 0 1px 1px #ddd;
+	-webkit-box-shadow: 0 0 1px 1px #ddd;
+}
+
+.content-div:hover {
+	box-shadow: 0 0 1px 1px #ccc;
+	-moz-box-shadow: 0 0 1px 1px #ccc;
+	-webkit-box-shadow: 0 0 1px 1px #ccc;
+}
+
+.canvas-div {
+	background-color: white;
+	box-shadow: 0 0 1px 1px #ddd;
+	-moz-box-shadow: 0 0 1px 1px #ddd;
+	-webkit-box-shadow: 0 0 1px 1px #ddd;
+}
+
+/* LASTFM */
+
+div.info-list-item {
+	margin: 0 auto;
+	padding-top: 2px;
+	display: block;
+	height: 100%;
+	color: #aaa;
+	font-size: 2em;
+}
+
+#total-playcount {
+	margin: 0 auto;
+	padding-top: 10px;
+	color: #aaa;
+	font-size: 2em;
+	font-weight: bold;
+	text-align: center;
+}
+
+ul.information {
+	padding-top: 10px;
+	padding-left: 10px;
+}
+
+ul.information > li {
+	border: 0;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 li {
 	overflow: hidden;
 	margin: 0px;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #ccc;
+}
+
+.list-title{
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 .track {
@@ -66,17 +186,41 @@ li {
 	float: left;
 }
 
+.track-name {
+	font-size: 0.9em;
+	font-weight: bold;
+}
+
 .track-detail {
 	float: left;
-	margin-top: 10px;
+	margin-top: 12px;
 	margin-left: 10px;
 }
 
 .track-playcount {
-	color: white;
 	float: right;
 	margin-top: 20px;
 	margin-right: 10px;
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 3em;
+	text-align: center;
+	color: #ddd;
+}
+
+/* Foursquare */
+
+#total_checkins {
+	margin: 0 auto;
+	padding-top: 10px;
+	color: #aaa;
+	font-size: 2em;
+	font-weight: bold;
+	text-align: center;
+}
+
+ul#mayorships > li {
+	padding: 5px;
 }
 
 .mayorship_img {
@@ -90,5 +234,57 @@ li {
 }
 
 footer {
-	background-color: orange;
+	background-color: #bbb;
+}
+
+@media all and (min-width: 300px) and (max-width: 800px) {
+
+	body{
+		background-color: white;
+	}
+
+	header{
+		background-color: white;
+	}
+
+	div.container{
+		background-color: white;
+	}
+
+	div.columns{
+		background-color: white;
+	}
+
+	.logo{
+		display: block;
+		margin: 0 auto;
+		width:23%;
+		border: 2px solid white;
+		border-radius: 999px;
+	}
+
+	#lastfm_playcount {
+		text-align: center;
+		color: #aaa;
+		font-size: 1em;
+		background-color: white;
+	}
+
+	#total-playcount {
+		margin: 0 auto;
+		color: #aaa;
+		font-size: 2em;
+		font-weight: bold;
+		text-align: center;
+	}
+
+	.list-title{
+		background-color: #ddd;
+	}
+
+	li{
+		background-color: #eee;
+		border-bottom: 1px solid white;
+	}
+
 }

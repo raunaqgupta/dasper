@@ -1,5 +1,8 @@
 var DASHBOARD = {};
 
+// Global Variables
+DASHBOARD.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 DASHBOARD.LastFM = function(username, num_weeks){
 
 	console.log("retrieving last.fm data");
@@ -38,17 +41,26 @@ DASHBOARD.LastFM = function(username, num_weeks){
 			labels : _.map(weekly_data, function(datum){ return getDateFromTimestamp(datum[0]) }),
 			datasets: [
 				{
-					fillColor : "rgba(220,220,220,0.5)",
-					strokeColor : "rgba(220,220,220,1)",
-					pointColor : "rgba(220,220,220,1)",
-					pointStrokeColor : "#fff",
+					fillColor : "rgba(220,100,100,0.5)",
+					strokeColor : "rgba(220,50,50,1)",
+					pointColor : "rgba(220,50,50,1)",
+					pointStrokeColor : "rgba(220,50,50,1)",
 					data : _.map(weekly_data, function(datum){ return datum[1]})
 				}
 			]
 		}
 
 		var chart_options = {
-			scaleShowGridLines: false
+			scaleShowGridLines: false,
+			scaleOverride: true,
+			scaleSteps: 10,
+			scaleStepWidth: 50,
+			scaleStartValue: 0,
+			scaleLineColor: "#aaa",
+			scaleFontSize: 10,
+			scaleFontColor: "#aaa",
+			pointDotRadius: 2,
+			pointDotStrokeWidth: 0,
 		};
 
 		var canvas_parent = $("#lastfm_playcount_chart");
@@ -71,17 +83,15 @@ DASHBOARD.LastFM = function(username, num_weeks){
 
 		var ul = $('#weekly_top_tracks_list');
 		_.each(top_tracks_week, function(track){
-			console.log(track);
-
 			ul.append(
 				$('<li>').append(
 					$('<div>').attr({"class":"track"}).append(
-						$("<img>").attr({"class":"track-cover", "src":track[3][1]["#text"]}),
-						$("<div />").attr({"class":"track-detail"}).append(
-							$("<div />").attr({"class":"track-name"}).append(track[0]),
-							$("<div />").attr({"class":"track-artist"}).append(track[2])
+						$("<img>").attr({"class":"track-cover", "src":track[3]}),
+						$("<div>").attr({"class":"track-detail"}).append(
+							$("<div>").attr({"class":"track-name"}).append(track[0].substring(0,20)),
+							$("<div>").attr({"class":"track-artist"}).append(track[2])
 							),
-						$("<div />").attr({"class":"track-playcount"}).append(track[1])
+						$("<div>").attr({"class":"track-playcount"}).append(track[1])
 						)
 					)
 				);
@@ -141,10 +151,16 @@ DASHBOARD.LastFM = function(username, num_weeks){
 		getWeekTopTracks: function(num_tracks){
 
 			lastfm.user.getTopTracks({user: username, period: "7day", limit: num_tracks},{success: function(data){
-
+				var img_url = "";
 				if(_.isArray(data.toptracks.track)){
 					_.each(data.toptracks.track, function(track){
-						top_tracks_week.push([track.name, track.playcount, track.artist.name, track.image]);
+						if(!track.image){
+							img_url = "images/default_album_medium.png";
+						}
+						else{
+							img_url = track.image[1]["#text"];
+						}
+						top_tracks_week.push([track.name, track.playcount, track.artist.name, img_url]);
 					});
 				}else {
 					var track = data.toptracks.track
@@ -164,7 +180,7 @@ DASHBOARD.LastFM = function(username, num_weeks){
 				playcount = data.user.playcount;
 
 				//update field with playcount
-				var playcount_div = $("#lastfm_playcount");
+				var playcount_div = $("#lastfm-playcount");
 				playcount_div.append(playcount);
 			}, error: function(code, message){
 				console.log("ERROR:" + code + ":" + message);	
@@ -209,6 +225,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 			var checkins = data.response.checkins.items;
 			if(checkin_count === 0){
 				checkin_count = data.response.checkins.count;
+				$("#foursq_checkins").append(checkin_count);
 			}
 			_.each(checkins, function(checkin){
 				var creation_date = checkin.createdAt;
@@ -260,13 +277,13 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 
 				checkin_chart_data["labels"] = label_array;
 				checkin_chart_data["datasets"] = [{
-					fillColor : "rgba(220,220,220,0.5)",
+					fillColor : "#97DBFC",
 					strokeColor : "rgba(220,220,220,1)",
 					data : data_array
 				}];
 
 				// draw the chart
-				drawCheckinChart();
+				drawCheckinCanvas();
 			}
 		})
 		.fail(function( jqxhr, textStatus, error ) {
@@ -277,8 +294,22 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 
 	var drawCheckinCanvas = function(){
 
+		var chart_options = {
+			scaleOverride: true,
+			scaleSteps: 10,
+			scaleStepWidth: 10,
+			scaleStartValue: 0,
+			scaleShowGridLines: false,
+			scaleLineColor: "#aaa",
+			scaleLineWidth: 0.6,
+			scaleFontColor: "#aaa",
+			barValueSpacing: 2,
+			barShowStroke: false,
+		};
+
 		var canvas_parent = $("#4sq_checkin_chart");
 		var canvas_width = canvas_parent.innerWidth();
+		var canvas_height = canvas_parent.innerHeight();
 		var canvas = 0;
 		if($("#canvas_4sq_checkin_chart").length){
 			canvas = $("#canvas_4sq_checkin_chart");
@@ -289,25 +320,25 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 			canvas_parent.append(canvas);
 		}
 
-		var myLine = new Chart(canvas.get(0).getContext("2d")).Bar(checkin_chart_data);
+		var myLine = new Chart(canvas.get(0).getContext("2d")).Bar(checkin_chart_data, chart_options);
 		
 	}
 
-	var drawVenueCanvas = function(radarChartData){
+	var drawVenueCanvas = function(){
 
 		var canvas_parent = $("#4sq_venue_chart");
 		var canvas_width = canvas_parent.innerWidth();
 		var canvas = 0;
 		if($("#canvas_4sq_venue_chart").length){
 			canvas = $("#canvas_4sq_venue_chart");
-			canvas.attr("width", canvas_width).attr("height", canvas_width);
+			canvas.attr("width", canvas_width).attr("height", parseInt(canvas_width/1.6180));
 		}else{
 			canvas = $("<canvas/>",{"id": "canvas_4sq_venue_chart"})
-				.attr({"width": canvas_width, "height": canvas_width});
+				.attr({"width": canvas_width, "height": parseInt(canvas_width/1.6180)});
 			canvas_parent.append(canvas);
 		}
 
-		var myRadar = new Chart(canvas.get(0).getContext("2d")).Radar(radarChartData,{
+		var myRadar = new Chart(canvas.get(0).getContext("2d")).Radar(venue_chart_data,{
 			pointLabelFontSize : 12
 		});
 	}
@@ -334,7 +365,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 
 		redrawCheckinChart: function(){
 			drawCheckinCanvas();
-		}
+		},
 
 		getMayorships: function(){
 			var url = "https://api.foursquare.com/v2/users/" + user_id + "/mayorships";
@@ -442,4 +473,256 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 
 	} // end of return
 }; // end of foursquare object
+
+DASHBOARD.facebook = function(access_token){
+
+	var access_token = access_token;
+	var num_months;
+	var until_timestamp = 0;
+	var fb_posts = [];
+	var facebook_chart_data = {};
+
+	var getFacebookPosts = function(uri){
+
+		$.getJSON(uri)
+		.done(function(data){
+			var new_uri = data["paging"]["next"];
+			_.each(data["data"], function(datum){
+				fb_posts.push(datum);
+			});
+
+			var new_timestamp = parseInt(new_uri.match(/until=[0-9]*/g)[0].replace("until=", ""));
+			if( until_timestamp < new_timestamp){
+				//call getFacebook Posts again
+				getFacebookPosts(new_uri);
+			}else{
+				console.log(fb_posts.length);
+				var monthly_posts = [0,0,0,0,0,0,0,0,0,0,0,0];
+				var monthly_friends = [0,0,0,0,0,0,0,0,0,0,0,0];
+				var current_month = (new Date()).getMonth();
+
+				//group by status_type
+				_.each(fb_posts, function(post){
+					var status_type = post["status_type"];
+					var month = (new Date(post["created_time"])).getMonth();
+					if(status_type === 'shared_story'){
+						monthly_posts[Math.abs(current_month-month)] += 1;
+						//monthly_posts[(new Date(post["created_time"])).getMonth()] += 1;
+					}else if(status_type === 'approved_friend'){
+						monthly_friends[Math.abs(current_month-month)] += 1;
+						//monthly_friends[(new Date(post["created_time"])).getMonth()] += 1;
+					}
+				});
+
+				monthly_posts = _.first(monthly_posts, num_months).reverse();
+				monthly_friends = _.first(monthly_friends, num_months).reverse();
+				
+				console.log(monthly_posts);
+				console.log(monthly_friends);
+
+				var labels = [];
+				for(var i=0;i<num_months;i++){
+					if(i<=current_month)
+						labels[i] = DASHBOARD.months[Math.abs(current_month-i)];
+					else
+						labels[i] = DASHBOARD.months[12+current_month-i];
+				}
+
+				labels.reverse();
+				console.log(labels);
+
+				facebook_chart_data.labels = labels;
+				facebook_chart_data.datasets = [
+					{
+						fillColor : "rgba(220,220,220,0.5)",
+						strokeColor : "rgba(220,220,220,1)",
+						pointColor : "rgba(220,220,220,1)",
+						pointStrokeColor : "#fff",
+						data : monthly_posts
+					},
+					{
+						fillColor : "rgba(220,100,220,0.5)",
+						strokeColor : "rgba(220,100,220,1)",
+						pointColor : "rgba(220,50,220,1)",
+						pointStrokeColor : "#fff",
+						data : monthly_friends
+					}
+				];
+
+				//draw canvas
+				drawFacebookCanvas();
+
+			}
+		})
+		.fail(function( jqxhr, textStatus, error ){
+			var err = textStatus + ', ' + error;
+			console.log( "Request Failed: " + err);
+		});
+	}
+
+	var getFacebookLikes = function(){
+
+	}
+
+	var drawFacebookCanvas = function(){
+
+		var chart_options = {
+			scaleShowGridLines: false
+		};
+
+		var canvas_parent = $("#fb_activity_chart");
+		var canvas_width = canvas_parent.innerWidth();
+		var canvas = 0;
+		if($("#canvas_fb").length){
+			console.log("canvas exists:" + $("#canvas_fb"));
+			canvas = $("#canvas_fb");
+			canvas.attr("width", canvas_width).attr("height", parseInt(canvas_width/1.6180));
+		}else{
+			console.log("creating new canvas");
+			canvas = $("<canvas/>",{"id": "canvas_fb"})
+				.attr({"width": canvas_width, "height": parseInt(canvas_width/1.6180)});
+			canvas_parent.append(canvas);
+		}
+		var myLine = new Chart(canvas.get(0).getContext("2d")).Line(facebook_chart_data, chart_options);
+
+	}
+
+	return {
+
+		redrawFacebookChart: function(){
+			drawFacebookCanvas();
+		},
+
+		drawFacebookChart: function(arg_num_months){
+			// initial URI
+			var uri = "https://graph.facebook.com/me/posts?access_token=" + access_token + "&limit=100";
+			num_months = arg_num_months;
+			// set until_timestamp
+			var d = new Date();
+			d.setMonth(d.getMonth() - num_months);
+			until_timestamp = parseInt(d.getTime()/1000);
+
+			getFacebookPosts(uri);
+		}
+
+	}
+
+};
+
+
+DASHBOARD.instagram = function(access_token, user_id){
+
+	var oauth_token = access_token;
+	var user_id = user_id;
+
+	var total_posts = 0;
+	var instagram_posts = [];
+	var filter_count = {};
+
+	var getMediaData = function(){
+
+		var uri = "https://api.instagram.com/v1/users/" + user_id + "/media/recent/?access_token=" + access_token + "&count=" + total_posts;
+		if(arguments.length > 0){
+			uri = arguments[0];
+		}
+
+		$.ajax({
+			dataType: "jsonp",
+			url: uri
+		})
+		.done(function(data){
+			if(data.pagination.next_url){
+				_.each(data.data, function(datum){
+					instagram_posts.push(datum);
+				});
+				//call next url
+				getMediaData(data.pagination.next_url);
+			}else{
+				_.each(data.data, function(datum){
+					instagram_posts.push(datum);
+				});
+
+				//data retrieval complete
+				console.log(instagram_posts.length);
+				_.each(instagram_posts, function(data){
+					if(!data.filter){
+						console.log(data.images.standard_resolution.url);
+					}
+					var filter_name = data.filter;
+					if(filter_count[filter_name]){
+						filter_count[filter_name] += 1;
+					}
+					else{
+						filter_count[filter_name] = 1;
+					}
+				});
+
+				console.log(filter_count);
+			}
+		})
+		.fail(function( jqxhr, textStatus, error ){
+			var err = textStatus + ', ' + error;
+			console.log( "Request Failed: " + err);
+		});
+
+	}
+
+	return {
+
+		getUserInfo: function(){
+
+			var uri = "https://api.instagram.com/v1/users/" + user_id + "/";
+			var arguments = {
+				access_token: oauth_token
+			};
+
+			$.ajax({
+				dataType: "jsonp",
+				url: uri,
+				data: arguments
+			})
+			.done(function(data){
+				var counts = data.data.counts;
+				total_posts = counts.media;
+				$("#instagram_posts").append(counts.media);
+				$("#instagram_followers").append(counts.followed_by);
+				$("#instagram_following").append(counts.follows);
+
+				getMediaData();
+			})
+			.fail(function( jqxhr, textStatus, error ){
+				var err = textStatus + ', ' + error;
+				console.log( "Request Failed: " + err);
+			});
+			
+		},
+
+		getLatestPost: function(){
+
+			var uri = "https://api.instagram.com/v1/users/" + user_id + "/media/recent/";
+			var arguments = {
+				access_token: oauth_token,
+				count: 1
+			};
+
+			$.ajax({
+				dataType: "jsonp",
+				url: uri,
+				data: arguments
+			})
+			.done(function(data){
+				var src= data.data[0].images.standard_resolution.url;
+
+				$("#instagram_latest_post").append(
+					$("<img>").attr({"src": src})
+					);
+
+			})
+			.fail(function( jqxhr, textStatus, error ){
+				var err = textStatus + ', ' + error;
+				console.log( "Request Failed: " + err);
+			});
+		}
+	}
+};
 	
