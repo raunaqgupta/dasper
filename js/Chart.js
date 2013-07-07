@@ -285,6 +285,7 @@ window.Chart = function(context){
 	this.Line = function(data,options){
 	
 		chart.Line.defaults = {
+			showScale: true,
 			scaleOverlay : false,
 			scaleOverride : false,
 			scaleSteps : null,
@@ -861,83 +862,83 @@ window.Chart = function(context){
 			}
 		}
 		function drawScale(){
-			//X axis line
-			ctx.lineWidth = config.scaleLineWidth;
-			ctx.strokeStyle = config.scaleLineColor;
-			ctx.beginPath();
-			ctx.moveTo(width-widestXLabel/2+5,xAxisPosY);
-			ctx.lineTo(width-(widestXLabel/2)-xAxisLength-5,xAxisPosY);
-			ctx.stroke();
-			
-			
-			if (rotateLabels > 0){
-				ctx.save();
-				ctx.textAlign = "right";
-			}
-			else{
-				ctx.textAlign = "center";
-			}
-			ctx.fillStyle = config.scaleFontColor;
-			for (var i=0; i<data.labels.length; i++){
-				ctx.save();
-				if (rotateLabels > 0){
-					ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
-					ctx.rotate(-(rotateLabels * (Math.PI/180)));
-					ctx.fillText(data.labels[i], 0,0);
-					ctx.restore();
-				}
-				
-				else{
-					ctx.fillText(data.labels[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);					
-				}
-
-				if(!config.onlyHorizontalGridLines){
-					ctx.beginPath();
-					ctx.moveTo(yAxisPosX + i * valueHop, xAxisPosY+3);
-					
-					//Check i isnt 0, so we dont go over the Y axis twice.
-					if(config.scaleShowGridLines && i>0){
-						ctx.lineWidth = config.scaleGridLineWidth;
-						ctx.strokeStyle = config.scaleGridLineColor;					
-						ctx.lineTo(yAxisPosX + i * valueHop, 5);
-					}
-					else{
-						ctx.lineTo(yAxisPosX + i * valueHop, xAxisPosY+3);				
-					}
-					ctx.stroke();
-				}
-			}
-			
-			//Y axis
-			ctx.lineWidth = config.scaleLineWidth;
-			ctx.strokeStyle = config.scaleLineColor;
-			ctx.beginPath();
-			ctx.moveTo(yAxisPosX,xAxisPosY+5);
-			ctx.lineTo(yAxisPosX,5);
-			ctx.stroke();
-			
-			ctx.textAlign = "right";
-			ctx.textBaseline = "middle";
-			for (var j=0; j<calculatedScale.steps; j++){
+			if(config.showScale){
+				//X axis line
+				ctx.lineWidth = config.scaleLineWidth;
+				ctx.strokeStyle = config.scaleLineColor;
 				ctx.beginPath();
-				ctx.moveTo(yAxisPosX-3,xAxisPosY - ((j+1) * scaleHop));
-				if (config.scaleShowGridLines){
-					ctx.lineWidth = config.scaleGridLineWidth;
-					ctx.strokeStyle = config.scaleGridLineColor;
-					ctx.lineTo(yAxisPosX + xAxisLength + 5,xAxisPosY - ((j+1) * scaleHop));					
-				}
-				else{
-					ctx.lineTo(yAxisPosX-0.5,xAxisPosY - ((j+1) * scaleHop));
-				}
-				
+				ctx.moveTo(width-widestXLabel/2+5,xAxisPosY);
+				ctx.lineTo(width-(widestXLabel/2)-xAxisLength-5,xAxisPosY);
 				ctx.stroke();
 				
-				if (config.scaleShowLabels){
-					ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY - ((j+1) * scaleHop));
+				
+				if (rotateLabels > 0){
+					ctx.save();
+					ctx.textAlign = "right";
+				}
+				else{
+					ctx.textAlign = "center";
+				}
+				ctx.fillStyle = config.scaleFontColor;
+				for (var i=0; i<data.labels.length; i++){
+					ctx.save();
+					if (rotateLabels > 0){
+						ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
+						ctx.rotate(-(rotateLabels * (Math.PI/180)));
+						ctx.fillText(data.labels[i], 0,0);
+						ctx.restore();
+					}
+					
+					else{
+						ctx.fillText(data.labels[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);					
+					}
+
+					if(!config.onlyHorizontalGridLines){
+						ctx.beginPath();
+						ctx.moveTo(yAxisPosX + i * valueHop, xAxisPosY+3);
+						
+						//Check i isnt 0, so we dont go over the Y axis twice.
+						if(config.scaleShowGridLines && i>0){
+							ctx.lineWidth = config.scaleGridLineWidth;
+							ctx.strokeStyle = config.scaleGridLineColor;					
+							ctx.lineTo(yAxisPosX + i * valueHop, 5);
+						}
+						else{
+							ctx.lineTo(yAxisPosX + i * valueHop, xAxisPosY+3);				
+						}
+						ctx.stroke();
+					}
+				}
+				
+				//Y axis
+				ctx.lineWidth = config.scaleLineWidth;
+				ctx.strokeStyle = config.scaleLineColor;
+				ctx.beginPath();
+				ctx.moveTo(yAxisPosX,xAxisPosY+5);
+				ctx.lineTo(yAxisPosX,5);
+				ctx.stroke();
+				
+				ctx.textAlign = "right";
+				ctx.textBaseline = "middle";
+				for (var j=0; j<calculatedScale.steps; j++){
+					ctx.beginPath();
+					ctx.moveTo(yAxisPosX-3,xAxisPosY - ((j+1) * scaleHop));
+					if (config.scaleShowGridLines){
+						ctx.lineWidth = config.scaleGridLineWidth;
+						ctx.strokeStyle = config.scaleGridLineColor;
+						ctx.lineTo(yAxisPosX + xAxisLength + 5,xAxisPosY - ((j+1) * scaleHop));					
+					}
+					else{
+						ctx.lineTo(yAxisPosX-0.5,xAxisPosY - ((j+1) * scaleHop));
+					}
+					
+					ctx.stroke();
+					
+					if (config.scaleShowLabels){
+						ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY - ((j+1) * scaleHop));
+					}
 				}
 			}
-			
-			
 		}
 		function calculateXAxisSize(){
 			var longestText = 1;
@@ -951,46 +952,60 @@ window.Chart = function(context){
 				//Add a little extra padding from the y axis
 				longestText +=10;
 			}
-			xAxisLength = width - longestText - widestXLabel;
-			valueHop = Math.floor(xAxisLength/(data.labels.length-1));	
-				
-			yAxisPosX = width-widestXLabel/2-xAxisLength;
+
+			if(config.showScale){
+				xAxisLength = width - longestText - widestXLabel;
+				valueHop = Math.floor(xAxisLength/(data.labels.length-1));
+				yAxisPosX = width-widestXLabel/2-xAxisLength;
+			}
+			else{
+				xAxisLength = width;
+				valueHop = xAxisLength/(data.labels.length-1);
+				yAxisPosX = 0;
+			}
+			
 			xAxisPosY = scaleHeight + config.scaleFontSize/2;				
 		}		
 		function calculateDrawingSizes(){
 			maxSize = height;
 
-			//Need to check the X axis first - measure the length of each text metric, and figure out if we need to rotate by 45 degrees.
-			ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
-			widestXLabel = 1;
-			for (var i=0; i<data.labels.length; i++){
-				var textLength = ctx.measureText(data.labels[i]).width;
-				//If the text length is longer - make that equal to longest text!
-				widestXLabel = (textLength > widestXLabel)? textLength : widestXLabel;
-			}
-			if (width/data.labels.length < widestXLabel){
-				rotateLabels = 45;
-				if (width/data.labels.length < Math.cos(rotateLabels) * widestXLabel){
-					rotateLabels = 90;
-					maxSize -= widestXLabel; 
+			if(config.showScale){
+				//Need to check the X axis first - measure the length of each text metric, and figure out if we need to rotate by 45 degrees.
+				ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
+				widestXLabel = 1;
+				for (var i=0; i<data.labels.length; i++){
+					var textLength = ctx.measureText(data.labels[i]).width;
+					//If the text length is longer - make that equal to longest text!
+					widestXLabel = (textLength > widestXLabel)? textLength : widestXLabel;
+				}
+				if (width/data.labels.length < widestXLabel){
+					rotateLabels = 45;
+					if (width/data.labels.length < Math.cos(rotateLabels) * widestXLabel){
+						rotateLabels = 90;
+						maxSize -= widestXLabel; 
+					}
+					else{
+						maxSize -= Math.sin(rotateLabels) * widestXLabel;
+					}
 				}
 				else{
-					maxSize -= Math.sin(rotateLabels) * widestXLabel;
+					maxSize -= config.scaleFontSize;
 				}
+				
+				//Add a little padding between the x line and the text
+				maxSize -= 5;
+				
+				
+				labelHeight = config.scaleFontSize;
+				
+				maxSize -= labelHeight;
+				//Set 5 pixels greater than the font size to allow for a little padding from the X axis.
 			}
 			else{
-				maxSize -= config.scaleFontSize;
+				widestXLabel = 0;
+				labelHeight = 0;
 			}
-			
-			//Add a little padding between the x line and the text
-			maxSize -= 5;
-			
-			
-			labelHeight = config.scaleFontSize;
-			
-			maxSize -= labelHeight;
-			//Set 5 pixels greater than the font size to allow for a little padding from the X axis.
-			
+
 			scaleHeight = maxSize;
 			
 			//Then get the area above we can safely draw on.
