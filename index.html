@@ -8,10 +8,10 @@
 		<meta name="author" content="Raunaq Gupta">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-		<title>Dashboard</title>
+		<title>Stats</title>
 
 		<!-- ===Stylesheets=== -->
-		<link href='http://fonts.googleapis.com/css?family=Molle:400italic' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Raleway:400,500' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/layout.css">
 		<link rel="stylesheet" href="css/skeleton.css">
@@ -22,7 +22,7 @@
 			<div class="three columns sidebar">
 				<nav>
 					<ul class="nav-list">
-						<li><a href=""><img src="images/logo.png" /></a></li>
+						<li><a href=""><img src="images/stats.png" /></a></li>
 						<li><a href="#lastfm_module"><img src="images/lastfm_logo.png" /></a></li>
 						<li><a href="#4sq_module"><img src="images/4sq_logo.png" /></a></li>
 						<li><a href="#fb_module"><img src="images/fb_logo.png" /></a></li>
@@ -31,7 +31,11 @@
 				</nav>
 			</div>
 
-			<div class="twelve offset-by-three columns content">
+			<div class="twelve offset-by-two columns content">
+
+				<div class="row">
+					<h1>STATS</h1>
+				</div>
 
 				<!-- LASTFM module -->
 				<div class="row title-row" id="lastfm_module">
@@ -40,7 +44,7 @@
 
 				<div class="row inner-row">
 					<div  class="twelve columns alpha content-div">
-						<h2>Stats</h2>
+						<h2>Numbers</h2>
 						<ul class="information">
 							<li>Total Playcount <div class="info-list-item" id="lastfm-playcount"></div></li>
 						</ul>
@@ -63,17 +67,22 @@
 
 				<!-- 4SQUARE module -->
 				<div class="row title-row" id="4sq_module">
-					<div class="three columns alpha">
-						<h1><a href="https://foursquare.com/user/38489249">Foursquare</a></h1>
-					</div>
+					<h1><a href="https://foursquare.com/user/38489249">Foursquare</a></h1>
 				</div>
 
 				<div class="row inner-row">
-					<div  class="twelve columns alpha content-div">
-						<h2>Stats</h2>
+					<div  class="four columns alpha content-div">
+						<h2>Numbers</h2>
 						<ul class="information">
 							<li>Checkins <div class="info-list-item" id="foursq_checkins"></div></li>
 						</ul>
+					</div>
+					<div class="eight columns omega content-div">
+						<h2>Top Categories</h2>
+						<div  class="four columns alpha" id="4sq_venue_chart"></div>
+						<div class="four columns omega">
+							<ul id="venue_legend" class="legend"></ul>
+						</div>
 					</div>
 				</div>
 				<div class="row inner-row">
@@ -87,33 +96,42 @@
 					</div>
 				</div>
 
-				<div class="row inner-row">
-					<div class="twelve columns alpha canvas-div" id="4sq_venue_chart">
-						<h2>Top Places</h2>
-					</div>
-				</div>
-
 				<hr />
 
 				<!-- Facebook module-->
 				<div class="row title-row" id="fb_module">
-					<div class="three columns alpha">
-						<h1><a href="https://facebook.com/raunaqgupta">Facebook</a></h1>
+					<h1><a href="https://facebook.com/raunaqgupta">Facebook</a></h1>
+				</div>
+
+				<div class="row inner-row">
+					<div class="four columns alpha content-div">
+						<h2>Numbers</h2>
+						<ul class="information">
+							<li>Friends <div class="info-list-item" id="fb_friends"></div></li>
+							<li>Likes <div class="info-list-item" id="fb_likes"></div></li>
+							<li>Wall Posts <div class="info-list-item" id="fb_wallcount"></div></li>
+						</ul>
+					</div>
+
+					<div class="eight columns omega canvas-div" id="fb_activity_chart">
+						<h2>Facebook Activity</h2>
+						<div class="legend" style="height: 30px; float: right">
+							<div style="background-color: rgb(220,220,220);" class="legend_box"></div>
+							<div style="position: relative; margin: 5px; float: left">Post Activity</div>
+
+							<div style="background-color: rgb(220,100,220);" class="legend_box"></div>
+							<div style="position: relative; margin: 5px; float: left">Friends added</div>
+						</div>
 					</div>
 				</div>
 
 				<div class="row inner-row">
-					<div class="twelve columns alpha canvas-div" id="fb_activity_chart">
-						<h2>Facebook Activity</h2>
-						<div class="legend" style="height: 30px; float: right">
-							<div style="background-color: rgba(220,220,220,0.5); width: 20px; height: 10px; display: block; position: relative; float: left; margin: 10px"></div>
-							<div style="position: relative; margin: 5px; float: left">Post Activity</div>
-
-							<div style="background-color: rgba(220,100,220,0.5); width: 20px; height: 10px; display: block; position: relative; float: left; margin: 10px"></div>
-							<div style="position: relative; margin: 5px; float: left">Friends added</div>
+					<div class="six columns alpha content-div">
+						<h2>Friend Gender Ratio</h2>
+						<div class="four columns alpha" id="fb_gender_pie"></div>
+						<div class="two columns omega">
+							<ul id="fb_gender_pie_legend" class="legend"></ul>
 						</div>
-					</div>
-					<div class="five columns omega">
 					</div>
 				</div>
 
@@ -121,14 +139,12 @@
 
 				<!-- instagram module -->
 				<div class="row title-row" id="instagram_module">
-					<div class="three columns alpha">
-						<h1><a href="https://instagram.com/raunaqgupta">Instagram</a></h1>
-					</div>
+					<h1><a href="https://instagram.com/raunaqgupta">Instagram</a></h1>
 				</div>
 
 				<div class="row inner-row">
 					<div  class="seven columns alpha content-div">
-						<h2>Stats</h2>
+						<h2>Numbers</h2>
 						<ul class="information">
 							<li>Posts <div class="info-list-item" id="instagram_posts"></div></li>
 							<li>Followers <div class="info-list-item" id="instagram_followers"></div></li>
@@ -155,5 +171,16 @@
 		<script src="js/Chart.js"></script>
 		<script src="js/data.js"></script>
 		<script src="js/starter.js"></script>
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-35904873-1']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();	
+		</script>
 	</body>
 </html>

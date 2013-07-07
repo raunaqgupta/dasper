@@ -1,5 +1,5 @@
 body {
-	background: #eee;
+	background: #eaeae1;
 }
 
 div.border{
@@ -9,7 +9,7 @@ div.border{
 }
 
 div.container {
-	background: #eee;
+	background: #eaeae1;
 }
 
 nav{
@@ -18,53 +18,7 @@ nav{
 }
 
 .content {
-	margin-top: 100px;
-}
-
-/*
-ul.nav-list > li {
-	width: 50px;
-}
-*/
-
-.nav-logo {
-	display: block;
-	width: 25%;
-}
-
-header {
-	text-align: left;
-	overflow: hidden;
-}
-
-header > h1 {
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-bottom: 10px;
-	float:right;
-	font-family: 'Molle', Helvetica;
-	text-shadow: 0px 2px 2px #ccc;
-	color: #fff;
-	border-bottom: 4px solid #aca;
-	background-color: #dea;
-}
-
-hr.large {
-	border: none;
-	height: 2px;
-	background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.3), rgba(0,0,0,0)); 
-    background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-}
-
-.logo {
-	border-top: 1px solid black;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
-	box-shadow: 0 0 1px 1px #ccc;
-	-moz-box-shadow: 0 0 1px 1px #ccc;
-	-webkit-box-shadow: 0 0 1px 1px #ccc;
+	margin-top: 0px;
 }
 
 img {
@@ -72,16 +26,11 @@ img {
 	max-width: 100%;
 }
 
-.title-row{
-}
-
-div.inner-row{
-}
-
 h1 {
 	border: 1px solid right: ;
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: 'Raleway', sans-serif;
 	font-size: 2em;
+	font-weight: 400;
 	color: #aaa;
 	margin: 0 auto;
 }
@@ -91,9 +40,9 @@ h2{
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 1.2em;
 	color: #aaa;
-	/* border-bottom: 1px solid #ccc; */
+	border-bottom: 1px solid #ccc;
 	margin: 0 auto;
-	background: -moz-linear-gradient(top, #eee, white);
+	/* background: -moz-linear-gradient(top, #eee, white); */
 }
 
 h3 {
@@ -105,8 +54,9 @@ h3 {
 }
 
 h1>a[href^="https://"], h1>a[href^="http://"]{
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 1.2em;
+	font-family: 'Raleway', sans-serif;
+	font-size: 1em;
+	font-weight: 500;
 	color: #aaa;
     background: url("../images/externallink.png") center right no-repeat;
     padding-right: 13px;
@@ -116,6 +66,9 @@ h1>a[href^="https://"], h1>a[href^="http://"]{
 .content-div {
 	box-sizing: border-box;
 	-moz-box-sizing:border-box;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 	background-color: white;
 	box-shadow: 0 0 1px 1px #ddd;
 	-moz-box-shadow: 0 0 1px 1px #ddd;
@@ -123,12 +76,15 @@ h1>a[href^="https://"], h1>a[href^="http://"]{
 }
 
 .content-div:hover {
-	box-shadow: 0 0 1px 1px #ccc;
-	-moz-box-shadow: 0 0 1px 1px #ccc;
-	-webkit-box-shadow: 0 0 1px 1px #ccc;
+	box-shadow: 0 0 1px 1px #aaa;
+	-moz-box-shadow: 0 0 1px 1px #aaa;
+	-webkit-box-shadow: 0 0 1px 1px #aaa;
 }
 
 .canvas-div {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 	background-color: white;
 	box-shadow: 0 0 1px 1px #ddd;
 	-moz-box-shadow: 0 0 1px 1px #ddd;
@@ -136,9 +92,18 @@ h1>a[href^="https://"], h1>a[href^="http://"]{
 }
 
 .canvas-div:hover {
-	box-shadow: 0 0 1px 1px #ccc;
-	-moz-box-shadow: 0 0 1px 1px #ccc;
-	-webkit-box-shadow: 0 0 1px 1px #ccc;
+	box-shadow: 0 0 1px 1px #aaa;
+	-moz-box-shadow: 0 0 1px 1px #aaa;
+	-webkit-box-shadow: 0 0 1px 1px #aaa;
+}
+
+div.legend_box {
+	width: 20px; 
+	height: 10px; 
+	display: block; 
+	position: relative; 
+	float: left; 
+	margin: 10px;
 }
 
 /* LASTFM */
@@ -176,6 +141,10 @@ li {
 	overflow: hidden;
 	margin: 0px;
 	border-bottom: 1px solid #ccc;
+}
+
+li.pie {
+	border: 0;
 }
 
 .list-title{
@@ -223,6 +192,14 @@ li {
 	font-size: 2em;
 	font-weight: bold;
 	text-align: center;
+}
+
+ul.legend {
+	margin-top: 10px;
+}
+
+ul.legend > li{
+	border: 0px;
 }
 
 ul#mayorships > li {
