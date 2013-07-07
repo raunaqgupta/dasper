@@ -51,6 +51,7 @@ DASHBOARD.LastFM = function(username, num_weeks){
 		}
 
 		var chart_options = {
+			showScale: false,
 			scaleShowGridLines: false,
 			scaleOverride: true,
 			scaleSteps: 10,
@@ -73,7 +74,8 @@ DASHBOARD.LastFM = function(username, num_weeks){
 		}else{
 			console.log("creating new canvas");
 			canvas = $("<canvas/>",{"id": "canvas_lastfm"})
-				.attr({"width": canvas_width, "height": parseInt(canvas_width/1.6180)});
+				.attr({"width": canvas_width, "height": parseInt(canvas_width/1.6180)})
+				.css("display","block");
 			canvas_parent.append(canvas);
 		}
 		var myLine = new Chart(canvas.get(0).getContext("2d")).Line(barChartData, chart_options);
@@ -113,13 +115,11 @@ DASHBOARD.LastFM = function(username, num_weeks){
 					date_array.push([parseInt(x['from']), parseInt(x['to'])]);
 				}
 
-				console.log(date_array);
 				//populate week_data
 				var j=0;
 
 				_.each(date_array, function(date){
 					lastfm.user.getWeeklyTrackChart({user:username, from:date[0], to:date[1]},{success: function(data){
-						console.log(data);
 						var playcount = 0;
 						j++;
 						for(var i=0; i<data.weeklytrackchart.track.length;i++){
@@ -339,7 +339,7 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 			canvas_parent.append(canvas);
 		}
 
-		var myRadar = new Chart(canvas.get(0).getContext("2d")).Pie(venue_chart_data);
+		var myPie = new Chart(canvas.get(0).getContext("2d")).Pie(venue_chart_data);
 	}
 
 	return {
@@ -622,6 +622,21 @@ DASHBOARD.facebook = function(access_token){
 					fb_gender_data[2]++;
 			});
 
+			//draw legend
+			var legend_ul = $("#fb_gender_pie_legend");
+			_.each(data, function(element, index, list){
+				legend_ul.append(
+					$('<li>').append(
+						$('<div>')
+							.css("background-color",element["color"])
+							.css("width","20px")
+							.css("height","20px")
+							.css("float","left")
+							.css("margin-right","5px"),
+						categories[index])
+				);
+			});
+
 			drawFacebookGenderPie();
 		})
 		.fail(function( jqxhr, textStatus, error ){
@@ -667,27 +682,16 @@ DASHBOARD.facebook = function(access_token){
 			canvas_parent.append(canvas);
 		}
 		var myPie = new Chart(canvas.get(0).getContext("2d")).Pie(data, chart_options);
-
-		//draw legend
-		var legend_ul = $("#fb_gender_pie_legend");
-		_.each(data, function(element, index, list){
-			legend_ul.append(
-				$('<li>').append(
-					$('<div>')
-						.css("background-color",element["color"])
-						.css("width","20px")
-						.css("height","20px")
-						.css("float","left")
-						.css("margin-right","5px"),
-					categories[index])
-			);
-		});
 	}
 
 	var drawFacebookCanvas = function(){
 
 		var chart_options = {
-			scaleShowGridLines: false
+			scaleShowGridLines: false,
+			scaleOverride: true,
+			scaleSteps: 5,
+			scaleStepWidth: 5,
+			scaleStartValue: 0
 		};
 
 		var canvas_parent = $("#fb_activity_chart");

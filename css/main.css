@@ -45,14 +45,6 @@ h2{
 	/* background: -moz-linear-gradient(top, #eee, white); */
 }
 
-h3 {
-	text-align: center;
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 1em;
-	color: #aaa;
-	margin: 0 auto;
-}
-
 h1>a[href^="https://"], h1>a[href^="http://"]{
 	font-family: 'Raleway', sans-serif;
 	font-size: 1em;
@@ -106,6 +98,11 @@ div.legend_box {
 	margin: 10px;
 }
 
+.hor-info-box {
+	padding-top: 10px;
+	padding-left: 10px;
+}
+
 /* LASTFM */
 
 div.info-list-item {
@@ -124,6 +121,16 @@ div.info-list-item {
 	font-size: 2em;
 	font-weight: bold;
 	text-align: center;
+}
+
+#lastfm_playcount_chart {
+	display: block;
+	border-bottom-right-radius: 0px;
+	-moz-border-bottom-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	-moz-border-bottom-left-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
 }
 
 ul.information {
@@ -223,50 +230,55 @@ footer {
 @media all and (min-width: 300px) and (max-width: 800px) {
 
 	body{
-		background-color: white;
-	}
-
-	header{
-		background-color: white;
+		background-color: #eee;
 	}
 
 	div.container{
-		background-color: white;
+		background-color: #eee;
 	}
 
-	div.columns{
-		background-color: white;
+	.columns{
+		background-color: #eee;
 	}
 
-	.logo{
-		display: block;
-		margin: 0 auto;
-		width:23%;
-		border: 2px solid white;
-		border-radius: 999px;
+	.sidebar {
+		visibility: hidden;
 	}
 
-	#lastfm_playcount {
-		text-align: center;
-		color: #aaa;
-		font-size: 1em;
-		background-color: white;
+	hr {
+		visibility: hidden;
 	}
 
-	#total-playcount {
-		margin: 0 auto;
-		color: #aaa;
-		font-size: 2em;
-		font-weight: bold;
+	h1, h2 {
 		text-align: center;
 	}
 
-	.list-title{
-		background-color: #ddd;
+	.inner-row > .alpha, .beta, .omega {
+		margin-bottom: 20px;
+	}
+
+	.content-div, .canvas-div {
+		background-color: white;
+		border: 1px solid #ccc;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+	}
+
+	.content-div:hover, .canvas-div:hover {
+		border: 1px solid #aaa;
+		border: 1px solid #aaa;
+		box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
 	}
 
 	li{
-		background-color: #eee;
+		background-color: white;
 		border-bottom: 1px solid white;
 	}
 

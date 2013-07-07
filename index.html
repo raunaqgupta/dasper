@@ -104,13 +104,29 @@
 				</div>
 
 				<div class="row inner-row">
-					<div class="four columns alpha content-div">
+					<div class="twelve columns alpha content-div">
 						<h2>Numbers</h2>
-						<ul class="information">
-							<li>Friends <div class="info-list-item" id="fb_friends"></div></li>
-							<li>Likes <div class="info-list-item" id="fb_likes"></div></li>
-							<li>Wall Posts <div class="info-list-item" id="fb_wallcount"></div></li>
-						</ul>
+						<div class="row">
+							<div class="two columns alpha hor-info-box">
+								Friends <div class="info-list-item" id="fb_friends"></div>
+							</div>
+							<div class="two columns beta hor-info-box">
+								Likes <div class="info-list-item" id="fb_likes"></div></li>
+							</div>
+							<div class="two columns omega hor-info-box">
+								Wall Posts <div class="info-list-item" id="fb_wallcount"></div></li>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row inner-row">
+					<div class="four columns alpha content-div">
+						<h2>Friend Gender Ratio</h2>
+						<div class="four columns" id="fb_gender_pie"></div>
+						<hr />
+						<ul id="fb_gender_pie_legend" class="legend"></ul>
 					</div>
 
 					<div class="eight columns omega canvas-div" id="fb_activity_chart">
@@ -121,16 +137,6 @@
 
 							<div style="background-color: rgb(220,100,220);" class="legend_box"></div>
 							<div style="position: relative; margin: 5px; float: left">Friends added</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row inner-row">
-					<div class="six columns alpha content-div">
-						<h2>Friend Gender Ratio</h2>
-						<div class="four columns alpha" id="fb_gender_pie"></div>
-						<div class="two columns omega">
-							<ul id="fb_gender_pie_legend" class="legend"></ul>
 						</div>
 					</div>
 				</div>
