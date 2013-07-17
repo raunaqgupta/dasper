@@ -22,7 +22,7 @@
 			<div class="three columns sidebar">
 				<nav>
 					<ul class="nav-list">
-						<li><a href=""><img src="images/stats.png" /></a></li>
+						<li><a href="#"><img src="images/stats.png" /></a></li>
 						<li><a href="#lastfm_module"><img src="images/lastfm_logo.png" /></a></li>
 						<li><a href="#4sq_module"><img src="images/4sq_logo.png" /></a></li>
 						<li><a href="#fb_module"><img src="images/fb_logo.png" /></a></li>
@@ -32,10 +32,6 @@
 			</div>
 
 			<div class="twelve offset-by-two columns content">
-
-				<div class="row">
-					<h1>STATS</h1>
-				</div>
 
 				<!-- LASTFM module -->
 				<div class="row title-row" id="lastfm_module">
@@ -53,11 +49,12 @@
 
 				<div class="row inner-row">
 					<div class="seven columns alpha canvas-div" id="lastfm_playcount_chart">
-						<h2>Weekly Playcount</h2>
+						<h2>12 Week Playcount</h2>
+						<img src="images/ajax-loader.gif"></img>
 					</div>
 					
 					<div class="five columns omega content-div">
-						<h2>Top Tracks (Week)</h2>
+						<h2>Week Top Tracks</h2>
 						<ul id="weekly_top_tracks_list">
 						</ul>
 					</div>
@@ -79,7 +76,9 @@
 					</div>
 					<div class="eight columns omega content-div">
 						<h2>Top Categories</h2>
-						<div  class="four columns alpha" id="4sq_venue_chart"></div>
+						<div  class="four columns alpha" id="4sq_venue_chart">
+							<img src="images/ajax-loader.gif"></img>
+						</div>
 						<div class="four columns omega">
 							<ul id="venue_legend" class="legend"></ul>
 						</div>
@@ -88,6 +87,7 @@
 				<div class="row inner-row">
 					<div class="eight columns alpha canvas-div" id="4sq_checkin_chart">
 						<h2>Monthly Checkins</h2>
+						<img src="images/ajax-loader.gif"></img>
 					</div>
 
 					<div class="four columns omega content-div">
@@ -124,9 +124,12 @@
 				<div class="row inner-row">
 					<div class="four columns alpha content-div">
 						<h2>Friend Gender Ratio</h2>
-						<div class="four columns" id="fb_gender_pie"></div>
-						<hr />
-						<ul id="fb_gender_pie_legend" class="legend"></ul>
+						<ul>
+							<li><div class="four columns" id="fb_gender_pie">
+								<img src="images/ajax-loader.gif"></img>
+							</div></li>
+							<li><ul id="fb_gender_pie_legend"></ul></li>
+						</ul>
 					</div>
 
 					<div class="eight columns omega canvas-div" id="fb_activity_chart">
@@ -138,6 +141,7 @@
 							<div style="background-color: rgb(220,100,220);" class="legend_box"></div>
 							<div style="position: relative; margin: 5px; float: left">Friends added</div>
 						</div>
+						<img src="images/ajax-loader.gif"></img>
 					</div>
 				</div>
 
@@ -169,8 +173,8 @@
 		</div>
 
 		<!-- ===Scripts=== -->
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/underscore-min.js"></script>
 		<script src="js/lastfm.api.cache.js"></script>
 		<script src="js/lastfm.api.md5.js"></script>
 		<script src="js/lastfm.api.js"></script>

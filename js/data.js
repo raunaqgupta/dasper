@@ -65,6 +65,10 @@ DASHBOARD.LastFM = function(username, num_weeks){
 		};
 
 		var canvas_parent = $("#lastfm_playcount_chart");
+
+		//remove ajax loader
+		canvas_parent.children("img").remove();
+
 		var canvas_width = canvas_parent.innerWidth();
 		var canvas = 0;
 		if($("#canvas_lastfm").length){
@@ -91,7 +95,7 @@ DASHBOARD.LastFM = function(username, num_weeks){
 						$("<img>").attr({"class":"track-cover", "src":track[3]}),
 						$("<div>").attr({"class":"track-detail"}).append(
 							$("<div>").attr({"class":"track-name"}).append(track[0].substring(0,20)),
-							$("<div>").attr({"class":"track-artist"}).append(track[2])
+							$("<div>").attr({"class":"track-artist"}).append(track[2].substring(0,20))
 							),
 						$("<div>").attr({"class":"track-playcount"}).append(track[1])
 						)
@@ -309,6 +313,8 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 		};
 
 		var canvas_parent = $("#4sq_checkin_chart");
+		//remove ajax loader
+		canvas_parent.children("img").remove();
 		var canvas_width = canvas_parent.innerWidth();
 		var canvas_height = canvas_parent.innerHeight();
 		var canvas = 0;
@@ -328,6 +334,8 @@ DASHBOARD.FourSquare = function(access_token, user_id){
 	var drawVenueCanvas = function(){
 
 		var canvas_parent = $("#4sq_venue_chart");
+		//remove ajax loader
+		canvas_parent.children("img").remove();
 		var canvas_width = canvas_parent.innerWidth();
 		var canvas = 0;
 		if($("#canvas_4sq_venue_chart").length){
@@ -501,7 +509,22 @@ DASHBOARD.facebook = function(access_token){
 	var until_timestamp = 0;
 	var fb_posts = [];
 	var facebook_chart_data = {};
-	var fb_gender_data = [0,0,0];
+
+	var categories = ["Female", "Male", "Unknown"];
+	var fb_gender_data = [
+			{
+				value: 0,
+				color: "#F7195C"
+			},
+			{
+				value: 0,
+				color: "#7AC3F0"
+			},
+			{
+				value: 0,
+				color: "#595959"
+			}
+		];
 
 	var getFacebookPosts = function(uri){
 
@@ -615,16 +638,16 @@ DASHBOARD.facebook = function(access_token){
 		.done(function(data){
 			_.each(data["data"], function(datum){
 				if(datum["sex"] === "female")
-					fb_gender_data[0]++;
+					fb_gender_data[0]["value"]++;
 				else if(datum["sex"] === "male")
-					fb_gender_data[1]++;
+					fb_gender_data[1]["value"]++;
 				else
-					fb_gender_data[2]++;
+					fb_gender_data[2]["value"]++;
 			});
 
 			//draw legend
 			var legend_ul = $("#fb_gender_pie_legend");
-			_.each(data, function(element, index, list){
+			_.each(fb_gender_data, function(element, index, list){
 				legend_ul.append(
 					$('<li>').append(
 						$('<div>')
@@ -647,28 +670,14 @@ DASHBOARD.facebook = function(access_token){
 
 	var drawFacebookGenderPie = function(){
 
-		var categories = ["Female", "Male", "Unknown"];
-		var data = [
-			{
-				value: fb_gender_data[0],
-				color: "#F7195C"
-			},
-			{
-				value: fb_gender_data[1],
-				color: "#7AC3F0"
-			},
-			{
-				value: fb_gender_data[2],
-				color: "#595959"
-			}
-		];
-
 		var chart_options = {
 			segmentShowStroke: true,
 			segmentStrokeWidth: 0.5
 		};
 
 		var canvas_parent = $("#fb_gender_pie");
+		//remove ajax loader
+		canvas_parent.children("img").remove();
 		var canvas_width = canvas_parent.innerWidth();
 		var canvas = 0;
 		if($("#canvas_fb_gender_pie").length){
@@ -681,7 +690,7 @@ DASHBOARD.facebook = function(access_token){
 				.attr({"width": canvas_width, "height": parseInt(canvas_width/1.6180)});
 			canvas_parent.append(canvas);
 		}
-		var myPie = new Chart(canvas.get(0).getContext("2d")).Pie(data, chart_options);
+		var myPie = new Chart(canvas.get(0).getContext("2d")).Pie(fb_gender_data, chart_options);
 	}
 
 	var drawFacebookCanvas = function(){
@@ -695,6 +704,8 @@ DASHBOARD.facebook = function(access_token){
 		};
 
 		var canvas_parent = $("#fb_activity_chart");
+		//remove ajax loader
+		canvas_parent.children("img").remove();
 		var canvas_width = canvas_parent.innerWidth();
 		var canvas = 0;
 		if($("#canvas_fb").length){

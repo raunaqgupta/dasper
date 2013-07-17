@@ -91,7 +91,8 @@ function LastFM(options){
 		else{
 			/* Get JSONP callback name. */
 			// appended a random integer to avoid duplicate callback names
-			var jsonp = 'jsonp' + new Date().getTime() + parseInt(Math.random()*10) + parseInt(Math.random()*10);
+			var jsonp = 'jsonp_' + new Date().getTime() + '_' + Math.round(1000000 * Math.random());
+			//var jsonp = 'jsonp' + new Date().getTime();
 
 			/* Calculate cache hash. */
 			var hash = auth.getApiSignature(params);

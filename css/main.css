@@ -17,8 +17,26 @@ nav{
 	width: 80px;
 }
 
+ul.nav-list > li {
+	border: none;
+	padding: 2px;
+}
+
+ul.nav-list > li > a > img {
+	width: 80%;
+	border: 2px solid black;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+
+ul.nav-list > li > a > img:hover {
+	filter: grayscale(0.5);
+	-webkit-filter: grayscale(0.5);
+}
+
 .content {
-	margin-top: 0px;
+	margin-top: 80px;
 }
 
 img {
@@ -99,6 +117,8 @@ div.legend_box {
 }
 
 .hor-info-box {
+	box-sizing: border-box;
+	-moz-box-sizing:border-box;
 	padding-top: 10px;
 	padding-left: 10px;
 }
@@ -223,22 +243,28 @@ ul#mayorships > li {
 	top: 5px;
 }
 
-footer {
-	background-color: #bbb;
+/*facebook*/
+
+ul#fb_gender_pie_legend {
+	margin-left: 10px;
 }
 
-@media all and (min-width: 300px) and (max-width: 800px) {
+ul#fb_gender_pie_legend > li{
+	border: 0px;
+}
+
+@media all and (min-width: 300px) and (max-width: 767px) {
 
 	body{
-		background-color: #eee;
+		background-color: #eaeae1;
 	}
 
 	div.container{
-		background-color: #eee;
+		background-color: #eaeae1;
 	}
 
 	.columns{
-		background-color: #eee;
+		background-color: #eaeae1;
 	}
 
 	.sidebar {
@@ -260,7 +286,6 @@ footer {
 	.content-div, .canvas-div {
 		background-color: white;
 		border: 1px solid #ccc;
-		border: 1px solid #ccc;
 		border-radius: 5px;
 		-moz-border-radius: 5px;
 		-webkit-border-radius: 5px;
@@ -270,7 +295,6 @@ footer {
 	}
 
 	.content-div:hover, .canvas-div:hover {
-		border: 1px solid #aaa;
 		border: 1px solid #aaa;
 		box-shadow: none;
 		-moz-box-shadow: none;
